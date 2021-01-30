@@ -1,35 +1,55 @@
+#include <rev/CANSparkMax.h>
+#include <rev/CANSparkMaxDriver.h>
+#include <rev/CANSparkMaxLowLevel.h>
+#include <ctre/Phoenix.h>
+#include <frc/Compressor.h>
+#include <frc/Solenoid.h>
+#include <frc/DigitalInput.h>
+
 //Falcon Motor Controller Declaration
-extern TalonSRX leftFrontFalcon = {0};
-extern TalonSRX leftBackFalcon = {1};
-extern TalonSRX rightFrontFalcon = {2};
-extern TalonSRX rightBackFalcon = {3};
+extern TalonSRX leftFrontFalcon;
+extern TalonSRX leftBackFalcon;
+extern TalonSRX rightFrontFalcon;
+extern TalonSRX rightBackFalcon;
 //Shooter
 // Right should be negative and left should be positive
-externTalonSRX l_shooter = {4};
-extern TalonSRX r_shooter = {5};
+extern TalonSRX l_shooter;
+extern TalonSRX r_shooter;
 //MCGintake
 extern TalonSRX MCGintake;
 //Skywalker
-extern TalonSRX skywalker = {7};
+extern TalonSRX skywalker;
 
 //CURRENT LIMITING
-extern WPI_TalonFX * shooterEncoder = new WPI_TalonFX{4};
+extern WPI_TalonFX * shooterEncoder;
 //ConfigPeakCurrentLimit();
 
 //SparkMax Motor Declaration
 //Color Wheel Motor
 extern rev::CANSparkMax colorWheelMotor;
 //Lift moves powercells from belt to turret
-extern rev::CANSparkMax lift1 ;
-extern rev::CANSparkMax lift2 ;
+extern rev::CANSparkMax lift1;
+extern rev::CANSparkMax lift2;
 //Elevator
 extern rev::CANSparkMax elevator; 
-extern rev::CANEncoder elevatorPoint = elevator.GetEncoder();
+extern rev::CANEncoder elevatorPoint;
 //Rotation of Shooter
 extern rev::CANSparkMax turret;
-extern rev::CANEncoder turretEncode = turret.GetEncoder();
+extern rev::CANEncoder turretEncode;
 //Hood controls angle of Shooter
 extern rev::CANSparkMax hood;
-extern rev::CANEncoder hoodEncoder = hood.GetEncoder();
+extern rev::CANEncoder hoodEncoder;
 //Conveyor Belt and Lift
 extern rev::CANSparkMax belt;
+
+extern frc::Compressor compressor;
+//One of these is up and the other is down ?
+extern frc::Solenoid intakeSolOpen;
+extern frc::Solenoid intakeSolClose;
+extern frc::Solenoid brakeSolOff;
+extern frc::Solenoid colorSolUp;
+extern frc::Solenoid brakeSolOn;
+extern frc::Solenoid colorSolDown;
+//Digital Sensors
+extern frc::DigitalInput sensorIntake;
+extern frc::DigitalInput sensorExit;

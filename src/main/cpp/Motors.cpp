@@ -1,4 +1,4 @@
-include "Motors.h"
+#include "Motors.h"
 
 //Falcon Motor Controller Declaration
 TalonSRX leftFrontFalcon = {0};
@@ -35,3 +35,16 @@ rev::CANSparkMax hood { 13 , rev::CANSparkMax::MotorType::kBrushless};
 rev::CANEncoder hoodEncoder = hood.GetEncoder();
 //Conveyor Belt and Lift
 rev::CANSparkMax belt { 14 , rev::CANSparkMax::MotorType::kBrushless};
+
+//Solenoids
+frc::Compressor compressor { 0 };
+//One of these is up and the other is down ?
+frc::Solenoid intakeSolOpen { 0 };
+frc::Solenoid intakeSolClose { 1 };
+frc::Solenoid brakeSolOff { 4 };
+frc::Solenoid colorSolUp { 3 };
+frc::Solenoid brakeSolOn { 2 };
+frc::Solenoid colorSolDown { 5 };
+//Digital Sensors
+frc::DigitalInput sensorIntake{1};
+frc::DigitalInput sensorExit{0};
