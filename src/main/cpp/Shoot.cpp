@@ -27,6 +27,9 @@ double shooterInput;
 double targetDistance;
 double vFeetPerSecond;
 
+bool hoodTracking();
+bool turretTracking();
+
 //Limelight Data Table
 auto llinst = nt::NetworkTableInstance::GetDefault();
 auto lltable = llinst.GetTable("limelight");

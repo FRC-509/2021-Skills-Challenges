@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cmath>
 #include <frc/Joystick.h>
-#include <frc/smartdashboard/SmartDashboard.h>
+// #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/util/color.h>
 #include <frc/Servo.h>
 #include <frc/Filesystem.h>
@@ -53,55 +53,55 @@ RobotMode mode;
 
 //CONSTANTS & OTHER GLOBAL VARIABLES
 
-//FUNCTIONAL
-//Power of Intake
-#define intakePower 0.75
-//Speed of conveyor
+// //FUNCTIONAL
+// //Power of Intake
+// #define intakePower 0.75
+// //Speed of conveyor
 
-//Lift Properties
+// //Lift Properties
 
-//Hood Properties
-#define angleRange M_PI/12
-//Rpm of Shooter
-double shooterRPM = std::clamp(0, 0, 80000);
-double targetDistance;
-double vFeetPerSecond;
-#define shooterAdjustment 1.05
-//Elevator
-double elevatorPosition;
-//Turret Soft Stop + Hood Soft Stop
-double turretInit;
-double hoodInit;
-double elevatorInit;
-#define turretMax 105
-#define hoodMax -40
-#define hoodMin 0
+// //Hood Properties
+// #define angleRange M_PI/12
+// //Rpm of Shooter
+// double shooterRPM = std::clamp(0, 0, 80000);
+// double targetDistance;
+// double vFeetPerSecond;
+// #define shooterAdjustment 1.05
+// //Elevator
+// double elevatorPosition;
+// //Turret Soft Stop + Hood Soft Stop
+// double turretInit;
+// double hoodInit;
+// double elevatorInit;
+// #define turretMax 105
+// #define hoodMax -40
+// #define hoodMin 0
 
 //PID
 
 
-//Input Tracking
-double turretInput;
-double hoodInput;
+// //Input Tracking
+// double turretInput;
+// double hoodInput;
 
-//  State Tracking Variables
-//Starting Mode of Solenoid
-bool intakeSolUp = 1;
-bool bsolUp = 1;
-//Powercell Pickup mode (0 for manual, 1 for auto)
-bool pickupMode = 0;
-//Belt Modes
-int shooterMode = 0;
+// //  State Tracking Variables
+// //Starting Mode of Solenoid
+// bool intakeSolUp = 1;
+// bool bsolUp = 1;
+// //Powercell Pickup mode (0 for manual, 1 for auto)
+// bool pickupMode = 0;
+// //Belt Modes
+// int shooterMode = 0;
 
-int LEDPWM;
+// int LEDPWM;
 
-bool shootCommand;
-bool manualToggle;
-//colors
-string blue = "Blue";
-string red = "Red";
-string yellow = "Yellow";
-string green = "green";
+// bool shootCommand;
+// bool manualToggle;
+// //colors
+// string blue = "Blue";
+// string red = "Red";
+// string yellow = "Yellow";
+// string green = "green";
 
 //CONTROLLERS
 
@@ -541,7 +541,7 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  frc::SmartDashboard::PutNumber("led pwm val", LEDPWM);
+  // frc::SmartDashboard::PutNumber("led pwm val", LEDPWM);
   //limelightOn(1);
 }
 /**
