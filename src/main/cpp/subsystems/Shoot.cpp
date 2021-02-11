@@ -1,8 +1,15 @@
+//  TO-DO:
+//    Get hood to track
+//    Get shooter speed set properly
+
 #include "util/Motors.h"
 #include "util/PID.h"
 #include <cmath>
 #include "networktables/NetworkTable.h"
 #include "networktables/NetworkTableInstance.h"
+
+//debugging
+#include <frc/smartdashboard/SmartDashboard.h>
 
 //  Hood PID
 #define hoodDown 0
@@ -46,20 +53,21 @@ bool syncShooters(double input){
   }
 }
 double cotan (double angle){ return 1/tan(angle); }
-double shooterSpeed(){
-  hoodAngle = atan((2*(73/12))/targetDistance);
-  //hoodAngle = (50*M_PI)/180;
-  //hoodAngle in radians
-  vFeetPerSecond = (2*(sqrt(((73/12)*cotan(hoodAngle)*32.185)/sin(2*hoodAngle))));
-  // shooterInput = shooterRPM/(1.25);
-  return shooterInput;
-  // frc::SmartDashboard::PutNumber("feet per second", vFeetPerSecond);
-}
+// double shooterSpeed(){
+//   hoodAngle = atan((2*(73/12))/targetDistance);
+//   //hoodAngle = (50*M_PI)/180;
+//   //hoodAngle in radians
+//   vFeetPerSecond = (2*(sqrt(((73/12)*cotan(hoodAngle)*32.185)/sin(2*hoodAngle))));
+//   // shooterInput = shooterRPM/(1.25);
+//   return shooterInput;
+//   // frc::SmartDashboard::PutNumber("feet per second", vFeetPerSecond);
+// }
 
 void shoot (bool active){
   if(!active){
     lltable->PutNumber("ledMode", 1);
     syncShooters(0);
+    turret.Set(0);
     return;
   }
 
@@ -69,7 +77,7 @@ void shoot (bool active){
 
   // if(turretTracking() && hoodTracking()){
     // syncShooters(shooterSpeed());
-    syncShooters(2750);
+    if(turretTracking()) syncShooters(2750);
   // }
 }
 
@@ -78,14 +86,14 @@ bool turretTracking(){
   double horizontalOffset;
   horizontalOffset = lltable->GetNumber("tx", 0);
   turret.Set(PID(-horizontalOffset, turretKp, turretKi));
-  //turretSet((0 - horizontalOffset));
-  if (5 <= horizontalOffset && horizontalOffset <= 5){
+  if (horizontalOffset <= 2){
     return true;
   } else {
     return false;
   }
-  // frc::SmartDashboard::PutNumber("horizontal offset", horizontalOffset);
+  
 }
+
 //hoodTracking function, outputs true if at position    
 bool hoodTracking(){
   
