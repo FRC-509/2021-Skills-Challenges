@@ -199,8 +199,6 @@ void Robot::TeleopInit() {
 }
 void Robot::TeleopPeriodic() {
 
-  #ifdef manual
-
   if(logicontroller.GetRawButton(7)){
     mode = RobotMode::Shoot;
   }
@@ -261,8 +259,6 @@ void Robot::TeleopPeriodic() {
 
   colorWheel(logicontroller.GetRawButton(3));
   drive(l_stick.GetRawAxis(0), r_stick.GetRawAxis(0), r_stick.GetRawButton(2));
-
-  #endif
 }
 
 void Robot::TestPeriodic() {}
