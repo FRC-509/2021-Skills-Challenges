@@ -10,7 +10,7 @@
 #include "autonav/Slalom.h"
 #include "autonav/BarrelRacing.h"
 #include "autonav/Bounce.h"
-path* AutoNavPath = new Slalom;
+path* AutoNavPath = new BarrelRacing;
 
 
 //LIBRARIES
@@ -175,25 +175,26 @@ void Robot::AutonomousInit() {
   
   // m_autoSelected = SmartDashboard::GetString("Auto Selector",
   //     kAutoNameDefault);
-  cout << "Auto selected: " << m_autoSelected << endl;
+  // cout << "Auto selected: " << m_autoSelected << endl;
 
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
-  wpi::SmallString<64> deployDirectory;
-  frc::filesystem::GetDeployDirectory(deployDirectory);
-  wpi::sys::path::append(deployDirectory, "paths");
-  wpi::sys::path::append(deployDirectory, "YourPath.wpilib.json");
-  frc::Trajectory trajectory = frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
+  // if (m_autoSelected == kAutoNameCustom) {
+  //   // Custom Auto goes here
+  // } else {
+  //   // Default Auto goes here
+  // }
+  // wpi::SmallString<64> deployDirectory;
+  // frc::filesystem::GetDeployDirectory(deployDirectory);
+  // wpi::sys::path::append(deployDirectory, "paths");
+  // wpi::sys::path::append(deployDirectory, "YourPath.wpilib.json");
+  // frc::Trajectory trajectory = frc::TrajectoryUtil::FromPathweaverJson(deployDirectory);
 }
 void Robot::AutonomousPeriodic() {
-  if (m_autoSelected == kAutoNameCustom) {
-    // Custom Auto goes here
-  } else {
-    // Default Auto goes here
-  }
+  AutoNavPath->Run();
+  // if (m_autoSelected == kAutoNameCustom) {
+  //   // Custom Auto goes here
+  // } else {
+    
+  // }
 }
 void Robot::TeleopInit() {
 }
