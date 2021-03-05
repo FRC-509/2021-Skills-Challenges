@@ -172,6 +172,8 @@ void Robot::RobotPeriodic() {
 
 void Robot::AutonomousInit() {
   m_autoSelected = m_chooser.GetSelected();
+
+  ms = 0;
   
   // m_autoSelected = SmartDashboard::GetString("Auto Selector",
   //     kAutoNameDefault);

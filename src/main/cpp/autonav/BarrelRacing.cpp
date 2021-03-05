@@ -7,23 +7,35 @@
 int ms = 0;
 
 void autoDrive(double v, double r, bool reverse){
-    leftFrontFalcon.Set(ControlMode::Velocity, (-v - r) * 4096/600);
-    leftBackFalcon.Set(ControlMode::Velocity, (-v - r) * 4096/600);
-    rightFrontFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
-    rightBackFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
+    leftFrontFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
+    leftBackFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
+    rightFrontFalcon.Set(ControlMode::Velocity, -(v - r) * 4096/600);
+    rightBackFalcon.Set(ControlMode::Velocity, -(v - r) * 4096/600);
 
 }
 
 void BarrelRacing::Run(){
     ms += 20;
 
-    if(ms <= 2600){
-        autoDrive(0.4f, 0.0f, false);
+    // IT WORKS DON'T TOUCH THIS
+    if(ms <= 1800){
+        autoDrive(2000, -175, false);
     }
-    else if(ms <= 5600){
-        autoDrive(0.3f, 0.12f, false);
+    else if(ms <=5500){
+        autoDrive(1800, -910, false);
+    }
+    
+    else if(ms <=7000){
+         autoDrive(2000, -175, false);
+    }
+    else if(ms <=9600){
+         autoDrive(1800, 735, false);
+    }
+    else if(ms <=10000){
+
     }
     else {
         autoDrive(0.0f, 0.0f, false);
     }
+    
 }
