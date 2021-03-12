@@ -1,6 +1,14 @@
 #include "util/Motors.h"
 #include <cmath>
 
+//  Velocity-based drive used for autonomous
+void autoDrive(double v, double r, bool reverse){
+    leftFrontFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
+    leftBackFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
+    rightFrontFalcon.Set(ControlMode::Velocity, -(v - r) * 4096/600);
+    rightBackFalcon.Set(ControlMode::Velocity, -(v - r) * 4096/600);
+}
+
 //Drive Functions
 //  Sync left and right wheel motors
 void leftDrive(double power){

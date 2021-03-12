@@ -1,5 +1,8 @@
 #include "util/Motors.h"
 
+//Gyro
+frc::ADIS16470_IMU imu{};
+
 //Falcon Motor Controller Declaration
 TalonSRX leftFrontFalcon = {0};
 TalonSRX leftBackFalcon = {1};

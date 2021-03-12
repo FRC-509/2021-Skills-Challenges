@@ -1,3 +1,5 @@
+#pragma once
+
 #include <rev/CANSparkMax.h>
 #include <rev/CANSparkMaxDriver.h>
 #include <rev/CANSparkMaxLowLevel.h>
@@ -5,6 +7,9 @@
 #include <frc/Compressor.h>
 #include <frc/Solenoid.h>
 #include <frc/DigitalInput.h>
+#include <adi/ADIS16470_IMU.h>
+
+extern frc::ADIS16470_IMU imu;
 
 //Falcon Motor Controller Declaration
 extern TalonSRX leftFrontFalcon;

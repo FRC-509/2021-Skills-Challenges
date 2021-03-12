@@ -71,7 +71,7 @@ void shoot (bool active){
 
     double targetArea = lltable->GetNumber("ta", 0);
     // double targetDistance = ((18)*(pow(targetArea, -.509)));
-    double targetDistance = (18.6088 * pow(targetArea, -0.517431)) - 3.93319;
+    targetDistance = (18.6088 * pow(targetArea, -0.517431)) - 3.93319;
     double angle = 1/tan((2 * 6.52) / targetDistance);
     double vFpS = (2*(sqrt(((73/12)*cotan(angle)*32.185)/sin(2*angle))));
     frc::SmartDashboard::PutNumber("target distance calculated:", targetDistance);
@@ -96,8 +96,6 @@ bool turretTracking(){
   double horizontalOffset;
   horizontalOffset = lltable->GetNumber("tx", 0);
   turret.Set(PID(-horizontalOffset, turretKp, turretKi));
-
-  
 
   if (horizontalOffset <= 2){
     return true;

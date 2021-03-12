@@ -8,9 +8,9 @@
 
 //Configure Autonav Path
 #include "autonav/Slalom.h"
-#include "autonav/BarrelRacing.h"
-#include "autonav/Bounce.h"
-path* AutoNavPath = new BarrelRacing;
+// #include "autonav/BarrelRacing.h"
+// #include "autonav/Bounce.h"
+path* AutoNavPath = new Slalom;
 
 
 //LIBRARIES
