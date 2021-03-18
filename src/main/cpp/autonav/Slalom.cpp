@@ -28,9 +28,9 @@ void Slalom::Run(){
         autoDrive(2000, -175, false);
     }
     else if(ms <= 11700){
-        autoDrive(2000, -600, false);
+        autoDrive(2000, -700, false);
     }
-    else if(ms <= 12700){
+    else if(ms <= 13050){
         autoDrive(2000, -175, false);
     }
     else {

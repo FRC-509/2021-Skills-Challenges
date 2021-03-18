@@ -260,6 +260,7 @@ void Robot::TeleopPeriodic() {
       break;
   }
 
+  HoodManual(logicontroller.GetRawAxis(0));
   colorWheel(logicontroller.GetRawButton(3));
   drive(l_stick.GetRawAxis(0), r_stick.GetRawAxis(0), r_stick.GetRawButton(2));
 }
