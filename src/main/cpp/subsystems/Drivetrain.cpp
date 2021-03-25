@@ -3,10 +3,18 @@
 
 //  Velocity-based drive used for autonomous
 void autoDrive(double v, double r, bool reverse){
+  if(!reverse){
     leftFrontFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
     leftBackFalcon.Set(ControlMode::Velocity, (v + r) * 4096/600);
     rightFrontFalcon.Set(ControlMode::Velocity, -(v - r) * 4096/600);
     rightBackFalcon.Set(ControlMode::Velocity, -(v - r) * 4096/600);
+  }
+  else {
+    leftFrontFalcon.Set(ControlMode::Velocity, -(v + r) * 4096/600);
+    leftBackFalcon.Set(ControlMode::Velocity, -(v + r) * 4096/600);
+    rightFrontFalcon.Set(ControlMode::Velocity, (v - r) * 4096/600);
+    rightBackFalcon.Set(ControlMode::Velocity, (v - r) * 4096/600);
+  }
 }
 
 //Drive Functions
