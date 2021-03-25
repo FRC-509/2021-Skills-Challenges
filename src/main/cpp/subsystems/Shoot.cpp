@@ -18,7 +18,7 @@
 double hoodAngle;
 double hoodSetpoint;
 double hoodPosition;
-#define hoodMax -40
+#define hoodMax 40
 #define hoodMin 0
 
 double hoodTarget;
@@ -45,9 +45,17 @@ bool turretTracking();
 auto llinst = nt::NetworkTableInstance::GetDefault();
 auto lltable = llinst.GetTable("limelight");
 
+
+//  4096/100 sens/ms = 2 pi r ft/s
+//  sens/ms = 2 * pi * r * (100/4096) ft/s
+//  TO-DO: Find r, test
+#define radiusInFeet 0
+
 bool syncShooters(double input){
-  l_shooter.Set(ControlMode::Velocity, input * (shooterAdjustment) * 4096/600);
-  r_shooter.Set(ControlMode::Velocity, -1 * input * (shooterAdjustment) * 4096/600);
+  // l_shooter.Set(ControlMode::Velocity, input * (shooterAdjustment) * 4096/600);
+  // r_shooter.Set(ControlMode::Velocity, -1 * input * (shooterAdjustment) * 4096/600);
+  l_shooter.Set(ControlMode::Velocity, input * 2 * M_PI * radiusInFeet * (100/4096));
+  r_shooter.Set(ControlMode::Velocity, -1 * input * 2 * M_PI * radiusInFeet * (100/4096));
   if (input > 0 || input < 0){
     return true;  
   } else {
@@ -68,10 +76,11 @@ double cotan (double angle){ return 1/tan(angle); }
 
 void HoodManual(double x){
   // hood.Set(x);
-  frc::SmartDashboard::PutNumber("Hood encoder", hoodEncoder.GetPosition());
 }
 
 void shoot (bool active){
+  frc::SmartDashboard::PutNumber("Hood encoder", hoodEncoder.GetPosition());
+
   if(!active){
     lltable->PutNumber("ledMode", 1);
     syncShooters(0);
@@ -116,11 +125,22 @@ bool turretTracking(){
 }
 
 void hoodSet(double input){
-  if (softStop(hoodMax, hoodMin, input, hoodEncoder.GetPosition())){
-    hood.Set(0);
-    frc::SmartDashboard::PutBoolean("Soft stop?", true);
+  if(input > 0){
+    if(hoodEncoder.GetPosition() > hoodMax){
+      hood.Set(-input);
+    }
+    if(hoodEncoder.GetPosition() < hoodMin){
+      hood.Set(input);
+    }
   }
-  //hood.Set(input);
+  else {
+    if(hoodEncoder.GetPosition() > hoodMax){
+      hood.Set(input);
+    }
+    if(hoodEncoder.GetPosition() < hoodMin){
+      hood.Set(-input);
+    }
+  }
 }
 
 //hoodTracking function, outputs true if at position    
