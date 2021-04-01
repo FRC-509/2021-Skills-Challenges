@@ -11,6 +11,8 @@
 //debugging
 #include <frc/smartdashboard/SmartDashboard.h>
 
+extern bool shooterReady;
+
 //  Hood PID
 #define hoodDown 0
 #define hoodKp 0.005
@@ -18,8 +20,8 @@
 double hoodAngle;
 double hoodSetpoint;
 double hoodPosition;
-#define hoodMax 40
-#define hoodMin 0
+#define hoodMax 0
+#define hoodMin -40
 
 double hoodTarget;
 double hoodTargetDegrees;
@@ -39,25 +41,18 @@ double vFeetPerSecond;
 bool hoodTracking();
 bool turretTracking();
 
-#define shooterAdjustment 1.05
 
 //Limelight Data Table
 auto llinst = nt::NetworkTableInstance::GetDefault();
 auto lltable = llinst.GetTable("limelight");
 
-
-//  4096/100 sens/ms = 2 pi r ft/s
-//  sens/ms = 2 * pi * r * (100/4096) ft/s
-//  TO-DO: Find r, test
-#define radiusInFeet 0
-
 bool syncShooters(double input){
   // l_shooter.Set(ControlMode::Velocity, input * (shooterAdjustment) * 4096/600);
   // r_shooter.Set(ControlMode::Velocity, -1 * input * (shooterAdjustment) * 4096/600);
-  l_shooter.Set(ControlMode::Velocity, input * 2 * M_PI * radiusInFeet * (100/4096));
-  r_shooter.Set(ControlMode::Velocity, -1 * input * 2 * M_PI * radiusInFeet * (100/4096));
+  l_shooter.Set(ControlMode::Velocity, input);
+  r_shooter.Set(ControlMode::Velocity, -1 * input);
   if (input > 0 || input < 0){
-    return true;  
+    return true;
   } else {
     return false;
   }
@@ -85,9 +80,7 @@ void shoot (bool active){
     lltable->PutNumber("ledMode", 1);
     syncShooters(0);
     turret.Set(0);
-
-    
-
+    hood.Set(0);
     return;
   }
 
@@ -99,6 +92,8 @@ void shoot (bool active){
   frc::SmartDashboard::PutNumber("target distance calculated:", targetDistance);
   frc::SmartDashboard::PutNumber("angle:", angle);
   frc::SmartDashboard::PutNumber("speed:", vFpS);
+  double sInput = vFpS * (12288/(2 * M_PI));
+  frc::SmartDashboard::PutNumber("sInput:", sInput);
 
   lltable->PutNumber("ledMode", 3);
 
@@ -106,7 +101,13 @@ void shoot (bool active){
 
   // if(turretTracking() && hoodTracking()){
     // syncShooters(shooterSpeed());
-    if(turretTracking()) syncShooters(2750);
+    if(turretTracking() && hoodTracking()){
+      shooterReady = true;
+      syncShooters(sInput);
+    }
+    else {
+      shooterReady = false;
+    }
   // }
 }
 
@@ -125,21 +126,20 @@ bool turretTracking(){
 }
 
 void hoodSet(double input){
-  if(input > 0){
-    if(hoodEncoder.GetPosition() > hoodMax){
-      hood.Set(-input);
-    }
-    if(hoodEncoder.GetPosition() < hoodMin){
-      hood.Set(input);
-    }
+  if(hoodEncoder.GetPosition() > hoodMin && hoodEncoder.GetPosition() < hoodMax){
+    hood.Set(input);
   }
-  else {
-    if(hoodEncoder.GetPosition() > hoodMax){
-      hood.Set(input);
-    }
-    if(hoodEncoder.GetPosition() < hoodMin){
+  else if (hoodEncoder.GetPosition() < hoodMin){
+    if(input < 0){
       hood.Set(-input);
     }
+    else hood.Set(input);
+  }
+  else if (hoodEncoder.GetPosition() > hoodMax){
+    if(input > 0){
+      hood.Set(-input);
+    }
+    else hood.Set(input);
   }
 }
 
@@ -155,9 +155,10 @@ bool hoodTracking(){
   //50deg to 70deg(hood) 
   //hood.Set(logicontroller.GetRawAxis(1));
   frc::SmartDashboard::PutNumber("hood target: ", hoodTargetEncoder);
+  frc::SmartDashboard::PutNumber("Hood encoder", hoodEncoder.GetPosition());
   hoodSet(PID(error, hoodKp, hoodKi));
   
-  if (-0.1 <= error && error <= 0.1){
+  if (-2 <= error && error <= 2){
     return true;
   } else {
     return false;

@@ -12,6 +12,7 @@
 #include "autonav/Bounce.h"
 path* AutoNavPath = new Bounce;
 
+bool shooterReady = 0;
 
 //LIBRARIES
 #include "Robot.h"
@@ -240,7 +241,8 @@ void Robot::TeleopPeriodic() {
     
     case RobotMode::Shoot:
       shoot(true);
-      conveyorBelt(1);
+      if(shooterReady) conveyorBelt(1);
+      else conveyorBelt(0);
       intake(false);
       climber(0, 0, 0);
       break;
